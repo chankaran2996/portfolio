@@ -1,9 +1,18 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import { FiGithub, FiLinkedin } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
 
 const Header = () => {
+    // states decleration
+    const [isOpen, setIsOpen] = useState(false);
+
+    // function for toggling mobile menu
+    const toggleMenu = () => setIsOpen(!isOpen);
+
+    // Listed nav items in an array
     const navItems = ["Home", "About", "Projects", "Skills", "Contact"];
+
   return (
     <header className=" absolute w-full z-50 transition-all duration-300">
         <div className=" container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 md:h-20">
@@ -114,8 +123,67 @@ const Header = () => {
                 </motion.button>
             </div>
 
-            {/*  */}
+            {/* mobile menu button */}
+            <div className=" md:hidden flex items-center">
+                <motion.button 
+                whileTap={ {scale: 0.7}}
+                onClick={toggleMenu}
+                className=" text-gray-300 hover:text-violet-600"
+                >
+                    { 
+                        isOpen ? <FiX className="h-6 w-6"/> : <FiMenu className="h-6 w-6"/>
+                    }
+                </motion.button>
+            </div>
         </div>
+
+        {/* mobile menu */}
+        <motion.div 
+        initial={{ height: 0, opacity: 0 }}
+        animate={ {
+            opacity: isOpen ? 1 : 0,
+            height: isOpen ? 'auto' : 0,
+            transition: { duration: 0.5, ease: "easeInOut" }
+
+        }}
+        className=" md:hidden overflow-hidden bg-white dark:bg-gray-900 shadow-lg px-4 py-5 space-y-5">
+            <nav className="flex flex-col space-y-3">
+                {
+                    navItems.map((item, index) => (
+                        <a 
+                        onClick={toggleMenu}
+                        key={index}
+                        className=" text-gray-300 hover:text-violet-600 font-medium"
+                        href="#"
+                        >
+                            {item}
+                        </a>
+                    ))
+                }
+            </nav>
+
+            <div className=" pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className=" flex space-x-4">
+                    <a href="https://github.com/chankaran2996" target="_blank">
+                        <FiGithub className=" w-5 h-5 text-gray-300 hover:text-violet-600"/>
+                    </a>
+                    <a href="https://www.linkedin.com/in/chandrasekaran-e-a5b58016a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+                        <FiLinkedin className=" w-5 h-5 text-gray-300 hover:text-violet-600"/>
+                    </a>
+                    <a href="https://wa.me/918220345388" target="_blank">
+                        <FaWhatsapp className=" w-5 h-5 text-gray-300 hover:text-violet-600"/>
+                    </a>
+                </div>
+                <button 
+                onClick={ () => {
+                    toggleMenu();
+                }}
+                className=" mt-4 block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600
+                 to-violet-400 font-bold">
+                    Contact Me
+                </button>
+            </div>
+        </motion.div>
 
     </header>
   );
