@@ -7,6 +7,11 @@ const Header = () => {
     // states decleration
     const [isOpen, setIsOpen] = useState(false);
     const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [message, setMessage] = useState('');
+    const [contactFormError, setContactFormError] = useState('');
 
     // function for toggling mobile menu
     const toggleMenu = () => setIsOpen(!isOpen);
@@ -22,6 +27,12 @@ const Header = () => {
         if (e.target === e.currentTarget) {
             closeContactForm();
         }   
+    };
+
+    // function to handle contact form submission
+    const handleContactFormSubmit = (e) => {
+        e.preventDefault();
+        // Add form submission logic here (e.g., send data to backend or email)
     };
 
     // Listed nav items in an array
@@ -235,13 +246,15 @@ const Header = () => {
                                 </button>
                             </div>
                             {/* Form */}
-                            <form className="space-y-4">
+                            <form className="space-y-4" onSubmit={handleContactFormSubmit}>
                                 <div>
                                     <label className=" block text-sm font-medium text-gray-300 mb-1">
                                         Name
                                     </label>
                                     <input 
                                     type="text" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     placeholder="Your Name"
                                     className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
                                     focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
@@ -253,6 +266,8 @@ const Header = () => {
                                     </label>
                                     <input 
                                     type="email" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Your Email"
                                     className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
                                     focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
@@ -264,6 +279,8 @@ const Header = () => {
                                     </label>
                                     <input 
                                     type="text" 
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
                                     placeholder="Your Phone Number"
                                     className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
                                     focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
@@ -275,11 +292,18 @@ const Header = () => {
                                     </label>
                                     <textarea
                                     rows="4"
-                                    placeholder="Your Message"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder="Kindly leave your message here..."
                                     className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
                                     focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
                                     />
                                 </div>
+                                {contactFormError && (
+                                    <p className=" text-red-600 text-sm">
+                                        {contactFormError}
+                                    </p>
+                                )}
                                 <motion.button 
                                 whileHover={{ scale: 1.03}}
                                 whileTap={{ scale: 0.9}}
