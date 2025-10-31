@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiGithub, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
@@ -6,9 +6,23 @@ import { FiGithub, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
 const Header = () => {
     // states decleration
     const [isOpen, setIsOpen] = useState(false);
+    const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
     // function for toggling mobile menu
     const toggleMenu = () => setIsOpen(!isOpen);
+
+    // functions for contact form open
+    const openContactForm = () => setIsContactFormOpen(true);
+
+    // function for contact form close
+    const closeContactForm = () => setIsContactFormOpen(false);
+
+    // function to close contact form on outside click
+    const closeContactFormOnOutsideClick = (e) => {
+        if (e.target === e.currentTarget) {
+            closeContactForm();
+        }   
+    };
 
     // Listed nav items in an array
     const navItems = ["Home", "About", "Projects", "Skills", "Contact"];
@@ -107,6 +121,7 @@ const Header = () => {
 
                 {/* hire me  */}
                 <motion.button 
+                onClick={openContactForm}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{
@@ -177,6 +192,7 @@ const Header = () => {
                 <button 
                 onClick={ () => {
                     toggleMenu();
+                    openContactForm();
                 }}
                 className=" mt-4 block w-full px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600
                  to-violet-400 font-bold">
@@ -184,7 +200,103 @@ const Header = () => {
                 </button>
             </div>
         </motion.div>
+        
+        {/* Contact form */}
+        <AnimatePresence>
+            {
+                isContactFormOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    onClick={closeContactFormOnOutsideClick}
+                    className=" fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+                    >
+                        <motion.div 
+                        initial={{ scale: 0.8, opacity: 0, y: 30 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.8, opacity: 0, y: 30 }}
+                        transition={{ 
+                            type: 'spring', 
+                            stiffness: 200, 
+                            damping: 35,
+                            duration: 0.8
+                        }}
+                        className=" bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-6">
+                            <div className=" flex justify-between items-center mb-4">
+                                <h1 className=" text-2xl font-bold text-gray-300">
+                                    Get in Touch
+                                </h1>
+                                <button>
+                                    <FiX 
+                                    onClick={closeContactForm}
+                                    className=" w-5 h-5 text-gray-300 hover:text-red-700"/>
+                                </button>
+                            </div>
+                            {/* Form */}
+                            <form className="space-y-4">
+                                <div>
+                                    <label className=" block text-sm font-medium text-gray-300 mb-1">
+                                        Name
+                                    </label>
+                                    <input 
+                                    type="text" 
+                                    placeholder="Your Name"
+                                    className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
+                                    focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
+                                    />
+                                </div>
+                                <div>
+                                    <label className=" block text-sm font-medium text-gray-300 mb-1">
+                                        Email
+                                    </label>
+                                    <input 
+                                    type="email" 
+                                    placeholder="Your Email"
+                                    className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
+                                    focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
+                                    />
+                                </div>
+                                <div>
+                                    <label className=" block text-sm font-medium text-gray-300 mb-1">
+                                        Phone Number
+                                    </label>
+                                    <input 
+                                    type="text" 
+                                    placeholder="Your Phone Number"
+                                    className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
+                                    focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
+                                    />
+                                </div>
+                                <div>
+                                    <label className=" block text-sm font-medium text-gray-300 mb-1">
+                                        Message
+                                    </label>
+                                    <textarea
+                                    rows="4"
+                                    placeholder="Your Message"
+                                    className=" w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 
+                                    focus:ring-violet-500 focus:border-violet-500 bg-gray-700"
+                                    />
+                                </div>
+                                <motion.button 
+                                whileHover={{ scale: 1.03}}
+                                whileTap={{ scale: 0.9}}
+                                type="submit"
+                                className=" w-full px-4 py-2 bg-gradient-to-r from-violet-600
+                                to-violet-400 hover:from-violet-700 hover:to-violet-700 transition-all
+                                duration-300 font-bold rounded-lg shadow-md hover:shadow-lg 
+                                hover:shadow-violet-600/50">
+                                    Send Message
+                                </motion.button>
+                            </form>
+                        </motion.div>
 
+                    </motion.div>
+                )
+            }
+        </AnimatePresence>
     </header>
   );
 };
