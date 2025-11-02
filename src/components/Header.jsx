@@ -2,8 +2,35 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { FiGithub, FiLinkedin, FiMenu, FiX } from "react-icons/fi";
+import emailjs from 'emailjs-com';
+import { a } from "framer-motion/client";
 
 const Header = () => {
+
+    //   const sendEmail = () => {
+    //     e.preventDefault();
+
+    //     emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+    //       .then((result) => {
+    //           console.log(result.text);
+    //           alert('Message Sent Successfully!');
+    //       }, (error) => {
+    //           console.log(error.text);
+    //           alert('Something went wrong!');
+    //       });
+
+    //     e.target.reset(); // Optional: Reset the form after submission
+    //   };
+
+    //   return (
+    //     <form ref={form} onSubmit={sendEmail}>
+    //       <input type="text" name="from_name" placeholder="Your Name" />
+    //       <input type="email" name="user_email" placeholder="Your Email" />
+    //       <textarea name="message" placeholder="Your Message"></textarea>
+    //       <button type="submit">Send Email</button>
+    //     </form>
+    //   );
+
     // states decleration
     const [isOpen, setIsOpen] = useState(false);
     const [isContactFormOpen, setIsContactFormOpen] = useState(false);
@@ -32,7 +59,51 @@ const Header = () => {
     // function to handle contact form submission
     const handleContactFormSubmit = (e) => {
         e.preventDefault();
+        // Basic validation
+        if (!name ) {
+            setContactFormError('Please fill name');
+            return;
+        }
+        if (!email ) {
+            setContactFormError('Please fill email');
+            return;
+        }
+        if (!phone ) {
+            setContactFormError('Please fill phone number');
+            return;
+        }
         // Add form submission logic here (e.g., send data to backend or email)
+
+        const formData = {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message,
+        };
+
+        emailjs.send('service_jug0civ', 'template_s92meio', formData, '2SGkFnuw4E_NMAKyY')
+        .then((result) => {
+            alert('Message Sent Successfully!');
+        })
+        .catch((error) => {
+            alert('Something went wrong!');
+        });
+
+        emailjs.send('service_jug0civ', 'template_qrvfiol', formData, '2SGkFnuw4E_NMAKyY')
+        .then((result) => {
+            console.log(result.text);
+        })
+        .catch((error) => {
+            console.log(error.text);
+        });
+
+        // Reset form and close contact form
+        setName('');
+        setEmail('');
+        setPhone('');
+        setMessage('');
+        closeContactForm();
+        setContactFormError('');
     };
 
     // Listed nav items in an array
