@@ -7,30 +7,6 @@ import { a } from "framer-motion/client";
 
 const Header = () => {
 
-    //   const sendEmail = () => {
-    //     e.preventDefault();
-
-    //     emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-    //       .then((result) => {
-    //           console.log(result.text);
-    //           alert('Message Sent Successfully!');
-    //       }, (error) => {
-    //           console.log(error.text);
-    //           alert('Something went wrong!');
-    //       });
-
-    //     e.target.reset(); // Optional: Reset the form after submission
-    //   };
-
-    //   return (
-    //     <form ref={form} onSubmit={sendEmail}>
-    //       <input type="text" name="from_name" placeholder="Your Name" />
-    //       <input type="email" name="user_email" placeholder="Your Email" />
-    //       <textarea name="message" placeholder="Your Message"></textarea>
-    //       <button type="submit">Send Email</button>
-    //     </form>
-    //   );
-
     // states decleration
     const [isOpen, setIsOpen] = useState(false);
     const [isContactFormOpen, setIsContactFormOpen] = useState(false);
